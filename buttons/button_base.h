@@ -24,12 +24,12 @@ protected:
       while (!DebouncedRead()) YIELD();
 
       saber.Event(button_, EVENT_PRESSED);
-      if (millis() - push_millis_ < 500) {
-        saber.Event(button_, EVENT_DOUBLE_CLICK);
-      } else {
+//      if (millis() - push_millis_ < 500) {
+//        saber.Event(button_, EVENT_DOUBLE_CLICK);
+//      } else {
         push_millis_ = millis();
         current_modifiers |= button_;
-      }
+//      }
       while (DebouncedRead()) YIELD();
       saber.Event(button_, EVENT_RELEASED);
       if (current_modifiers & button_) {
@@ -42,7 +42,7 @@ protected:
         }
       } else {
         // someone ate our clicks
-        push_millis_ = millis() - 10000; // disable double click
+       // push_millis_ = millis() - 10000; // disable double click
 
          if(millis() - push_millis_ >1500 ) count=0;						  ///////
       }
