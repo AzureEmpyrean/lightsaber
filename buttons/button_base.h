@@ -3,6 +3,8 @@
 
 #include "debounced_button.h"
 
+  int count=0;
+
 // Simple button handler. Keeps track of clicks and lengths of pushes.
 class ButtonBase : public Looper,
                    public CommandParser,
@@ -35,8 +37,15 @@ protected:
       if (current_modifiers & button_) {
         current_modifiers &=~ button_;
         if (millis() - push_millis_ < 500) {
-          saber.Event(button_, EVENT_CLICK_SHORT);
            count++; 						 //////////
+           switch (count){
+           	   case 1: saber.Event(button_, EVENT_CLICK_SHORT); break;
+           	   case 2: saber.Event(button_, EVENT_DOUBLE_CLICK); break;
+           	   case 3: saber.Event(button_, EVENT_TRIPLE_CLICK); break;
+           	   case 4: saber.Event(button_, EVENT_QUADRUPLE_CLICK); break;
+           	   case 5: saber.Event(button_, EVENT_5_CLICK); break;
+           }
+
         } else {
           saber.Event(button_, EVENT_CLICK_LONG);
         }
@@ -44,7 +53,7 @@ protected:
         // someone ate our clicks
        // push_millis_ = millis() - 10000; // disable double click
 
-         if(millis() - push_millis_ >1500 ) count=0;						  ///////
+         if(millis() - push_millis_ >1000 ) count=0;						  ///////
       }
     }
     STATE_MACHINE_END();

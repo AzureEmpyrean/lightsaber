@@ -282,10 +282,11 @@ enum EVENT : uint32_t {
   EVENT_RELEASED,
   EVENT_CLICK_SHORT,
   EVENT_CLICK_LONG,
-  EVENT_DOUBLE_CLICK, // Note, will also generate a short click
-  
-  EVENT_5_CLICK,
+  EVENT_DOUBLE_CLICK, // Note, will also generate a short click <<- old code. new code not tested yet
   EVENT_TRIPLE_CLICK,
+  EVENT_QUADRUPLE_CLICK,
+  EVENT_5_CLICK,
+
   
   EVENT_LATCH_ON,
   EVENT_LATCH_OFF,
@@ -1317,13 +1318,13 @@ public:
     }
     
     bool handled = true;
-    switch (EVENTID(button, event, current_modifiers | (SaberBase::IsOn() ? MODE_ON : MODE_OFF))) {
+  switch (EVENTID(button, event, current_modifiers | (SaberBase::IsOn() ? MODE_ON : MODE_OFF))) {
       default:
         handled = false;
         break;
 
       case EVENTID(BUTTON_POWER, EVENT_PRESSED, MODE_ON):
-      case EVENTID(BUTTON_AUX, EVENT_PRESSED, MODE_ON):
+      case EVENTID(BUTTON_AUX, EVENT_PRESSED, MODE_ON):    //Delete Maybe
         if (accel_.x < -0.15) {
           pointing_down_ = true;
         } else {
@@ -1353,8 +1354,8 @@ public:
          
       case EVENTID(BUTTON_POWER, EVENT_CLICK_SHORT, MODE_ON):
       case EVENTID(BUTTON_POWER, EVENT_LATCH_OFF, MODE_ON):
-      case EVENTID(BUTTON_AUX, EVENT_LATCH_OFF, MODE_ON):
-      case EVENTID(BUTTON_AUX2, EVENT_LATCH_OFF, MODE_ON):
+      case EVENTID(BUTTON_AUX, EVENT_LATCH_OFF, MODE_ON):      //Delete Maybe
+      case EVENTID(BUTTON_AUX2, EVENT_LATCH_OFF, MODE_ON):     //Delete Maybe
 #if NUM_BUTTONS == 0
       case EVENTID(BUTTON_NONE, EVENT_TWIST, MODE_ON):
 #endif
@@ -1365,7 +1366,7 @@ public:
         SaberBase::DoForce();
         break;
 
-      case EVENTID(BUTTON_AUX, EVENT_CLICK_SHORT, MODE_ON):
+      case EVENTID(BUTTON_AUX, EVENT_CLICK_SHORT, MODE_ON):     //////Delete maybe?
         // Avoid the base and the very tip.
         SaberBase::addBlast((200 + random(700)) / 1000.0);
         SaberBase::DoBlast();
